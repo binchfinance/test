@@ -1,0 +1,652 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Binch.Finance Farming Pool</title>
+    <link rel='stylesheet' href='stylesheets/style.css' />
+    <link rel="icon" href="images/yfin-logo.png">
+    <!-- CSS only -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <meta name="viewport" content="width=500, initial-scale=1">
+    <!-- JS, Popper.js, and jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+    <script src="https://raw.githubusercontent.com/talmand/jquery-animate-numbers/master/jquery.animateNumbers.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <meta name="theme-color" content="#2c4762">
+    <script src="https://unpkg.com/web3@latest/dist/web3.min.js"></script>
+    <script>
+    (function($) {
+        $.fn.animateNumbers = function(stop, commas, duration, ease) {
+            return this.each(function() {
+                var $this = $(this);
+                var isInput = $this.is('input');
+                var start = parseInt(isInput ? $this.val().replace(/,/g, "") : $this.text().replace(/,/g, ""));
+                var regex = /(\d)(?=(\d\d\d)+(?!\d))/g;
+                commas = commas === undefined ? true : commas;
+
+                // number inputs can't have commas or it blanks out
+                if (isInput && $this[0].type === 'number') {
+                    commas = false;
+                }
+
+                $({ value: start }).animate({ value: stop }, {
+                    duration: duration === undefined ? 1000 : duration,
+                    easing: ease === undefined ? "swing" : ease,
+                    step: function() {
+                        isInput ? $this.val(Math.floor(this.value)) : $this.text(Math.floor(this.value));
+                        if (commas) {
+                            isInput ? $this.val($this.val().replace(regex, "$1,")) : $this.text($this.text().replace(regex, "$1,"));
+                        }
+                    },
+                    complete: function() {
+                        if (parseInt($this.text()) !== stop || parseInt($this.val()) !== stop) {
+                            isInput ? $this.val(stop) : $this.text(stop);
+                            if (commas) {
+                                isInput ? $this.val($this.val().replace(regex, "$1,")) : $this.text($this.text().replace(regex, "$1,"));
+                            }
+                        }
+                    }
+                });
+            });
+        };
+    })(jQuery);
+    </script>
+    <script src="js/main.js"></script>
+</head>
+<style>
+body:not(.web3) .web3true {
+    display: none;
+}
+
+.home .swapcard {
+    height: 175px;
+}
+
+.home .swapcard2 {
+    height: 115px;
+}
+
+.web3 .web3false {
+    display: none
+}
+
+* {
+    font-weight: 400 !important;
+}
+
+.yield-badge {
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    font-size: 20px;
+}
+
+body.approved .not-approved-spend {
+    display: none
+}
+
+body:not(.approved) .approved-spend {
+    display: none
+}
+
+body.approved-swap .not-approved-swap-spend {
+    display: none
+}
+
+body:not(.approved-swap) .approved-swap-spend {
+    display: none
+}
+
+* {
+    font-family: ADAHybrid-Medium, Courier New, Arial, Times New Roman !important;
+}
+
+html {
+    height: 100%;
+    background-color: #2c4762 !important
+}
+
+body {
+    background-color: #375CD4 !important
+}
+
+.card {
+    background-color: rgba(0, 0, 0, 0.3)
+}
+
+.swapcard,
+.swapcard2 {
+    display: inline-block;
+    width: 300px;
+    height: 240px;
+    margin: 10px;
+    transition: 1s box-shadow;
+}
+
+.swapcard:hover,
+.swapcard2:hover {
+    box-shadow: 0 0 50px rgba(255, 255, 255, 0.3)
+}
+
+.tokenpair {
+    margin-bottom: 15px;
+}
+
+.token1,
+.token2 {
+    display: inline-block;
+    height: 50px;
+    width: 50px;
+    border-radius: 99px;
+    border: 3px solid #FFF;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+    background: #000;
+    background-size: cover !important;
+}
+
+.token2 {
+    position: relative;
+    right: 8px
+}
+
+.token1 {
+    position: relative;
+    left: 8px;
+    z-index: 99;
+}
+
+.binch {
+    background-image: url('images/yfincoinlogo.png')
+}
+
+.cake {
+    background-image: url('images/pancake_32.webp')
+}
+
+.bnb {
+    background-image: url('images/binance_32.webp')
+}
+
+.busd {
+    background-image: url('images/busd_32.webp')
+}
+
+.usdt {
+    background-image: url('images/tether_32.webp')
+}
+
+.btc {
+    background-image: url('images/btcb_32.webp')
+}
+
+.eth {
+    background-image: url('images/ethereum_32.webp')
+}
+
+.drugs {
+    background-image: url('images/drugs_32.webp')
+}
+
+.yfinold {
+    background-image: url('images/yfincoinlogoold.png')
+}
+</style>
+
+<body class="text-center">
+    <div class="cover-container d-flex w-100 h-100 mx-auto flex-column">
+        <header class="top-header">
+            <p>
+                <span class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </span>
+            </p>
+        </header>
+        <header class="masthead mb-auto">
+            <div class="inner">
+                <a href="#"><img class="side-logo" src="images/yfin-logo.png" alt="#" /></a>
+                <nav class="nav nav-masthead justify-content-center">
+                <a class="nav-link" href="#farm" onclick="nav('farms')">Farm & Trade</a>
+                <a class="nav-link" href="https://exchange.pancakeswap.finance/#/swap?inputCurrency=BNB&outputCurrency=0x31656Cc4C6AD29648e16cE0Eb3F424F73a9372D8" target="_blank">Buy BINCH</a>
+                <a class="nav-link" href="#home" onclick="nav('home')">Info</a>
+                <a class="nav-link" href="https://binchfinance.medium.com/" target="_blank">Medium</a>
+                </nav>
+            </div>
+        </header>
+        <main role="main" class="inner cover home" style="display: none;">
+            <div class="container">
+                <div class="row m-0 d-flex">
+                    <div class="col-12 p-0 d-flex home-top">
+                        <a href="#"><img class="logo" src="images/highres_Yfin.png" alt="#" /></a>
+                        <div>
+                         <a href="https://t.me/binchfinance"><img src="images/tel.png"  alt="#" /></a>
+                        </div>
+                    </div>
+                    <div class="col-12 p-0 home-top-p">
+                        <p>STAKE BINCH LP TOKENS. EARN <span>FRESH YIELD</span> 24/7</p>
+                    </div>
+                </div>
+				        	<div class="container">
+						    <p class="lead web3false">
+      <a href="#" class="btn btn-lg btn-secondary" onclick="connectWeb3()">CONNECT WALLET</a>
+    </p>
+
+                <div class="row m-0 home-cards-sec">
+
+                    <div class="card swapcard web3true farm-card">
+                        <div class="card-body d-flex  align-items-center justify-content-center">
+                            <span>
+                                <h6 class="card-subtitle mb-2 text-muted">Your BINCH Balance</h6>
+                                <h2 class="card-text balance"><span>-.----</span></h2>
+                                <a href="#farms" onclick="nav('farms')" class="card-link btn btn-primary btn-lg">Farm</a>
+
+                            </span>
+                        </div>
+                    </div>
+                    <div class="card web3true swapcard token-card">
+                        <div class="card-body d-flex  align-items-center justify-content-center">
+                            <span>
+                                <h6 class="card-subtitle mb-2 text-muted">Token Price</h6>
+                                <h2 class="card-text tokenprice">-.----</h2>
+                                <a class="card-link btn btn-primary btn-lg" href="https://exchange.pancakeswap.finance/#/swap?inputCurrency=BNB&outputCurrency=0x31656Cc4C6AD29648e16cE0Eb3F424F73a9372D8" target="_blank">Buy BINCH</a>
+
+                            </span>
+                        </div>
+                    </div>
+                    <div class="card web3true swapcard2">
+                        <div class="card-body d-flex  align-items-center justify-content-center">
+                            <span>
+                                <h6 class="card-subtitle mb-2 text-muted">Total Value Staked</h6>
+                                <h2 class="card-text tvl">$<span>-.----</span></h2>
+
+                            </span>
+                        </div>
+                    </div>
+                    <div class="card web3true swapcard2">
+                        <div class="card-body d-flex  align-items-center justify-content-center">
+                            <span>
+                                <h6 class="card-subtitle mb-2 text-muted">Market Cap</h6>
+                                <h2 class="card-text mcap">$<span>-.----</span></h2>
+
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <main role="main" class="inner cover farms">
+            <div class="container">
+                <div class="row m-0 d-flex">
+                    <div class="col-12 p-0 d-flex home-top">
+                        <a href="#"><img class="logo" src="images/highres_Yfin.png" alt="#" /></a>
+                        <div>
+                           <a href="https://t.me/binchfinance"><img src="images/tel.png"  alt="#" /></a>
+                        </div>
+                    </div>
+                    <div class="col-12 p-0 home-top-p">
+                        <p>STAKE BINCH LP TOKENS. EARN <span>FRESH YIELD</span> 24/7</p>
+
+                    </div>
+                </div>
+				    <p class="lead web3false">
+      <a href="#" class="btn btn-lg btn-secondary" onclick="connectWeb3()">CONNECT WALLET</a>
+    </p>
+                <div class="farm-boxes home-cards-sec">
+                    <div class="card swapcard">
+                        <div class="card-body">
+                            <div class="tokenpair">
+                                <div class="token1 binch"></div>
+                                <div class="token2 bnb"></div>
+                            </div>
+                            <h6 class="card-subtitle mb-2 text-muted">PANCAKE BINCH/BNB LP</h6>
+                            <h2 class="card-text apy0"><span class="pool0yield">---.-%</span></h2>
+                            <a href="#pool0" onclick="nav('pool0')" class="card-link btn btn-primary btn-lg">
+                                Farm
+                            </a>
+                            <a class="card-link btn btn-primary btn-lg" href="https://exchange.pancakeswap.finance/#/swap?inputCurrency=BNB&outputCurrency=0x31656Cc4C6AD29648e16cE0Eb3F424F73a9372D8" target="_blank">
+                                Trade
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="card swapcard">
+                        <div class="card-body">
+                            <div class="tokenpair">
+                                <div class="token1 binch"></div>
+                            </div>
+                            <h6 class="card-subtitle mb-2 text-muted">BINCH</h6>
+                            <h2 class="card-text apy0"><span class="pool1yield">---.-%</span></h2>
+                            <a href="#pool1" onclick="nav('pool1')" class="card-link btn btn-primary btn-lg">
+                                Farm
+                            </a>
+                            <a  class="card-link btn btn-primary btn-lg" href="https://exchange.pancakeswap.finance/#/swap?inputCurrency=BNB&outputCurrency=0x31656Cc4C6AD29648e16cE0Eb3F424F73a9372D8" target="_blank"">
+                                Trade
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="card swapcard">
+                        <div class="card-body">
+                            <div class="tokenpair">
+                                <div class="token1 cake"></div>
+                            </div>
+                            <h6 class="card-subtitle mb-2 text-muted">CAKE</h6>
+                            <h2 class="card-text apy0"><span class="pool2yield">---.-%</span></h2>
+                            <a href="#pool2" onclick="nav('pool2')" class="card-link btn btn-primary btn-lg">
+                                Farm
+                            </a>
+                            <a  class="card-link btn btn-primary btn-lg" href="https://exchange.pancakeswap.finance/#/swap?inputCurrency=BNB&outputCurrency=0x31656Cc4C6AD29648e16cE0Eb3F424F73a9372D8" target="_blank">
+                                Trade
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="card swapcard">
+                        <div class="card-body">
+                            <div class="tokenpair">
+                                <div class="token1 busd"></div>
+                                <div class="token2 bnb"></div>
+                            </div>
+                            <h6 class="card-subtitle mb-2 text-muted">PANCAKE BUSD/BNB LP</h6>
+                            <h2 class="card-text apy0"><span class="pool3yield">---.-%</span></h2>
+                            <a href="#pool3" onclick="nav('pool3')" class="card-link btn btn-primary btn-lg">
+                                Farm
+                            </a>
+                            <a  class="card-link btn btn-primary btn-lg" href="https://exchange.pancakeswap.finance/#/swap?inputCurrency=BNB&outputCurrency=0x31656Cc4C6AD29648e16cE0Eb3F424F73a9372D8" target="_blank">
+                                Trade
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="card swapcard">
+                        <div class="card-body">
+                            <div class="tokenpair">
+                                <div class="token1 usdt"></div>
+                                <div class="token2 busd"></div>
+                            </div>
+                            <h6 class="card-subtitle mb-2 text-muted">PANCAKE USDT/BUSD LP</h6>
+                            <h2 class="card-text apy0"><span class="pool4yield">---.-%</span></h2>
+                            <a href="#pool4" onclick="nav('pool4')" class="card-link btn btn-primary btn-lg">
+                                Farm
+                            </a>
+                            <a  class="card-link btn btn-primary btn-lg" href="https://exchange.pancakeswap.finance/#/swap?inputCurrency=BNB&outputCurrency=0x31656Cc4C6AD29648e16cE0Eb3F424F73a9372D8" target="_blank">
+                                Trade
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="card swapcard">
+                        <div class="card-body">
+                            <div class="tokenpair">
+                                <div class="token1 btc"></div>
+                                <div class="token2 bnb"></div>
+                            </div>
+                            <h6 class="card-subtitle mb-2 text-muted">PANCAKE BTCB/BNB LP</h6>
+                            <h2 class="card-text apy0"><span class="pool5yield">---.-%</span></h2>
+                            <a href="#pool5" onclick="nav('pool5')" class="card-link btn btn-primary btn-lg">
+                                Farm
+                            </a>
+                            <a  class="card-link btn btn-primary btn-lg" href="https://exchange.pancakeswap.finance/#/swap?inputCurrency=BNB&outputCurrency=0x31656Cc4C6AD29648e16cE0Eb3F424F73a9372D8" target="_blank">
+                                Trade
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="card swapcard">
+                        <div class="card-body">
+                            <div class="tokenpair">
+                                <div class="token1 eth"></div>
+                                <div class="token2 bnb"></div>
+                            </div>
+                            <h6 class="card-subtitle mb-2 text-muted">PANCAKE ETH/BNB LP</h6>
+                            <h2 class="card-text apy0"><span class="pool6yield">---.-%</span></h2>
+                            <a href="#pool6" onclick="nav('pool6')" class="card-link btn btn-primary btn-lg">
+                                Farm
+                            </a>
+                            <a  class="card-link btn btn-primary btn-lg" href="https://exchange.pancakeswap.finance/#/swap?inputCurrency=BNB&outputCurrency=0x31656Cc4C6AD29648e16cE0Eb3F424F73a9372D8" target="_blank">
+                                Trade
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="card swapcard">
+                        <div class="card-body">
+                            <div class="tokenpair">
+                                <div class="token1 drugs"></div>
+                                <div class="token2 bnb"></div>
+                            </div>
+                            <h6 class="card-subtitle mb-2 text-muted">PANCAKE DRUGS/BNB LP</h6>
+                            <h2 class="card-text apy0"><span class="pool7yield">---.-%</span></h2>
+                            <a href="#pool7" onclick="nav('pool7')" class="card-link btn btn-primary btn-lg">
+                                Farm
+                            </a>
+                            <a  class="card-link btn btn-primary btn-lg" href="https://exchange.pancakeswap.finance/#/swap?inputCurrency=BNB&outputCurrency=0x31656Cc4C6AD29648e16cE0Eb3F424F73a9372D8" target="_blank">
+                                Trade
+                            </a>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </main>
+        <main role="main" class="inner cover pool" style="display:none">
+        	<div class="container">
+
+	            <h1 class="cover-heading farmname">BINCH/BNB POOL</h1>
+
+	            <p class="lead"></p>
+	            <div class="row m-0 d-flex">
+	            	<div class="pool-sec home-cards-sec">
+		                <div class="card hide web3true">
+		                    <div class="card-body d-flex align-items-center justify-content-center">
+		                    	<span>
+			                        <h6 class="card-subtitle mb-2 text-muted">BINCH Claim</h6>
+			                        <h2 class="card-text rewardbalance">-.----</h2>
+			                        <a href="#" class="card-link btn btn-primary btn-lg" onclick="claimReward()">CLAIM</a>
+
+		                    	</span>
+		                    </div>
+		                </div>
+
+		                <div class="card hide web3true">
+		                    <div class="card-body d-flex align-items-center justify-content-center">
+		                    	<span>
+			                        <h6 class="card-subtitle mb-2 text-muted">Staked Token</h6>
+			                        <h2 class="card-text stakedbalance">-.----</h2>
+			                        <a href="#" class="card-link btn btn-primary btn-lg" onclick="removeFromPool()">Unstake</a>
+
+		                    	</span>
+		                    </div>
+		                </div>
+		                <div class="card hide web3true ">
+		                    <div class="card-body d-flex align-items-center justify-content-center">
+		                    	<span>
+			                        <h6 class="card-subtitle mb-2 text-muted">Your Wallet</h6>
+			                        <h2 class="card-text walletbalance">-.----</h2>
+			                        <div class="not-approved-spend">
+			                            <a href="#" class="card-link btn btn-primary btn-lg" onclick="approveSpend()">Approve spend</a>
+			                        </div>
+			                        <div class="approved-spend">
+			                            <a href="#" class="card-link btn btn-primary btn-lg" onclick="addToPool()">Stake</a>
+			                        </div>
+
+		                    	</span>
+		                    </div>
+		                </div>
+		                <div class="card hide web3true">
+		                    <div class="card-body d-flex align-items-center justify-content-center">
+		                    	<span>
+		                        	<a  class="card-link btn btn-primary btn-lg" href="https://exchange.pancakeswap.finance/#/swap?inputCurrency=BNB&outputCurrency=0x31656Cc4C6AD29648e16cE0Eb3F424F73a9372D8" target="_blank">1. Get Tokens To<br>Stake</a><br><br>
+									<a href="#" class="card-link btn btn-primary btn-lg farmname2" onclick="getlptoken()">ADD LIQUIDITY</a>
+
+		                    	</span>
+		                    </div>
+		                </div>
+
+	            	</div>
+	            </div>
+
+
+        	</div>
+        </main>
+        <footer class="mastfoot">
+            <div class="inner">
+                <p>
+                    <a href="https://bscscan.com/token/0x31656cc4c6ad29648e16ce0eb3f424f73a9372d8" target="_blank">Token Contract</a> / <a href="https://bscscan.com/address/0x43fBa205CF0E5B26C409F8789658469Cff5863AC" target="_blank">BinchPool contract</a> / <a href="https://pancakeswap.info/token/0x31656cc4c6ad29648e16ce0eb3f424f73a9372d8" target="_blank">PancakeSwap</a>
+                </p>
+            </div>
+        </footer>
+    </div>
+    <style>
+    /*
+     * Globals
+     */
+    /* Links */
+    a,
+    a:focus,
+    a:hover {
+        color: #fff;
+    }
+
+    /* Custom default button */
+    .btn-secondary,
+    .btn-secondary:hover,
+    .btn-secondary:focus {
+        color: #333;
+        text-shadow: none;
+        /* Prevent inheritance from `body` */
+        background-color: #fff;
+        border: .05rem solid #fff;
+    }
+
+    /*
+     * Base structure
+     */
+    html {
+        height: 100%;
+    }
+
+    body {
+        min-height: 100%;
+        display: -ms-flexbox;
+        display: flex;
+        color: #fff;
+        text-shadow: 0 .05rem .1rem rgba(0, 0, 0, .5);
+        box-shadow: inset 0 0 5rem rgba(0, 0, 0, .5);
+        padding: 50px 10px;
+    }
+
+    .cover-container {
+        max-width: 42em;
+    }
+
+    /*
+     * Header
+     */
+    .masthead {
+        margin-bottom: 2rem;
+    }
+
+    .masthead-brand {
+        margin-bottom: 0;
+    }
+
+    .nav-masthead .nav-link {
+        padding: .25rem 0;
+        color: rgba(255, 255, 255, .5);
+        background-color: transparent;
+        border-bottom: .25rem solid transparent;
+    }
+
+    .nav-masthead .nav-link:hover,
+    .nav-masthead .nav-link:focus {
+        border-bottom-color: rgba(255, 255, 255, .25);
+    }
+
+    .nav-masthead .nav-link+.nav-link {
+        margin-left: 1rem;
+    }
+
+    .nav-masthead .active {
+        color: #fff;
+        border-bottom-color: #fff;
+    }
+
+    @media (min-width: 48em) {
+        .masthead-brand {
+            float: left;
+        }
+
+        .nav-masthead {
+            float: right;
+        }
+    }
+
+    /*
+     * Cover
+     */
+    .cover {
+        padding: 4em 0rem;
+    }
+
+    .cover .btn-lg {
+        padding: .75rem 1.25rem;
+        font-weight: 700;
+    }
+
+    .cover .btn-sm {
+        padding: .25 0.5rem;
+        font-weight: 700;
+    }
+
+    /*
+     * Footer
+     */
+    .mastfoot {
+        margin-top: 50px;
+        color: rgba(255, 255, 255, .5);
+    }
+    </style>
+    <script type="text/javascript">
+        $('.hamburger, .nav-masthead .nav-link').click(function(){
+            $('.masthead').toggleClass('active');
+            $(this).toggleClass('active')
+        });
+    </script>
+</body>
+	<script type="text/javascript">
+
+
+
+
+				var input1 = document.getElementById('input1');
+var input2 = document.getElementById('input2');
+
+input1.addEventListener('input', function (e) {
+  var value = parseFloat(e.target.value .replace(/,/, '.'));
+  if(Number.isFinite(value)) {
+    input2.value = (value / 160).toFixed(5);
+  } else {
+    input2.value = '';
+  }
+});
+
+input2.addEventListener('input', function (e) {
+  var value = parseFloat(e.target.value .replace(/,/, '.'));
+  if(Number.isFinite(value)) {
+    input1.value = (value * 160).toFixed(5);
+  } else {
+    input1.value = '';
+  }
+});
+
+
+				</script>
+</html>

@@ -1,0 +1,443 @@
+@font-face {
+    font-family: 'ADAHybrid-Medium';
+    src: url('ADAHybrid-Medium.ttf');
+}
+@font-face {
+    font-family: 'Adumu';
+    src: url('Adumu.ttf');
+}
+body {
+  padding: 0px;
+  font: 14px Helvetica, Arial, sans-serif;
+  text-shadow: 0 0 0 !important;
+}
+a {
+  color: #00B7FF;
+}
+body{
+padding:0 !important;
+}
+.cover-container{
+width: 100%;
+max-width: 100% !important;
+}
+.masthead{
+position: fixed;
+left:0;
+top:0;
+bottom:0;
+overflow-y: auto !important;
+overflow-x: hidden !important;
+width: 14rem;
+background-color: #37ABD4;
+z-index:9999;
+padding-top: 6rem;
+}
+img{
+max-width: 100%;
+}
+main.inner{
+padding-left: 14rem;
+padding-top:0;
+}
+.side-logo{
+width: 8.5rem;
+}
+.nav-masthead{
+width: 100%;
+}
+.nav-masthead .nav-link{
+margin:0 !important;
+width: 100%;
+margin-top: 3rem !important;
+text-shadow: 0 0 0;
+color: #fff !important;
+font-size: 1.7rem;
+text-transform: uppercase;
+letter-spacing: 1px;
+border-bottom: 0 !important;
+transition: all .3s ease;
+}
+.nav-masthead .nav-link:hover{
+text-decoration: none;
+border-bottom: 0 !important;
+color: rgba(255, 255, 255, .5) !important;
+}
+.masthead .inner , .masthead .inner a{
+width: 100% !important;
+display: inline-block;
+}
+.top-header{
+position: fixed;
+top:0;
+left:0;
+z-index:99999;
+width: 100%;
+background-color: #6037D4;
+padding: .6rem 0;
+}
+.top-header p{
+margin:0;
+letter-spacing: 1px;
+font-size: .9rem;
+}
+.top-header p .dash-span{
+padding: 0 .5rem;
+}
+.top-header p span{
+color: #3AA2D4;
+}
+.top-header p .dash-span{
+color: #fff;
+}
+body:not(.web3) .web3true{
+display: flex !important;
+}
+main.inner{
+background-color: #375CD4;
+padding-top: 5rem;
+}
+
+main.inner .home-top div{
+margin-left: auto;
+margin-top: 3rem;
+}
+main.inner .home-top .logo{
+width: 28.5rem;
+max-width: 100%;
+}
+main.inner .home-top div img{
+width: 3rem;
+margin-left: .2rem;
+}
+main.inner .home-top-p{
+font-size: 1.2rem;
+letter-spacing: 1px;
+margin-top: 1rem;
+}
+main.inner .home-top-p p,
+main.inner .home-top-p p span{
+font-family: 'Adumu' !important;
+}
+main.inner .home-top-p span{
+color: #FAD538;
+}
+.home-cards-sec .card{
+border-radius: .6rem;
+background-color: #6037D4;
+height: 12rem !important;
+width: 15.7rem;
+display: inline-block;
+float: none;
+margin: auto;
+margin-bottom: 1.5rem;
+}
+.home-cards-sec{
+text-align: center;
+padding: 0 4rem;
+}
+.home-cards-sec .card h6{
+color: #fff !important;
+text-transform: uppercase;
+letter-spacing: 1px;
+font-size: .9rem;
+margin-bottom: 1.3rem !important;
+margin-top: 0;
+}
+.home-cards-sec .card h2{
+font-size: 1rem ;
+letter-spacing: 1px;
+margin-bottom: 1.3rem;
+}
+.home-cards-sec .card.farm-card a{
+text-transform: uppercase !important;
+letter-spacing: 1px ;
+background-color: #37ABD4;
+border-color: #37ABD4;
+font-size: .9rem;
+width: 10rem;
+height: 3.5rem;
+line-height: 2.1rem;
+transition: all .3s ease;
+font-family: 'Adumu' !important;
+}
+.home-cards-sec .card.token-card a {
+    font-size: .9rem;
+    height: 2rem;
+    line-height: 2rem;
+    letter-spacing: 1px;
+    background-color: #37ABD4;
+    border-color: #37ABD4;
+    transition: all .3s ease;
+    margin-top: .9rem;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    font-family: 'Adumu' !important;
+}
+.home-cards-sec .card.token-card h6{
+margin-top: -1rem;
+}
+.home-cards-sec .card.token-card a:hover, .home-cards-sec .card.farm-card a:hover{
+background-color: #35bdec;
+}
+div.home-cards-sec{
+margin-top: 1rem !important;
+}
+.mastfoot{
+background-color: #375CD4; 
+margin-top: 0 !important;
+padding-left: 14rem;
+}
+.mastfoot p{
+font-size: 1.1rem;
+text-transform: uppercase;
+letter-spacing: 1px;
+margin-bottom: 2rem;
+}
+.mastfoot p a{
+    font-family: 'Adumu' !important;
+}
+.home-cards-sec .card.swapcard2 h2{
+margin-bottom: 0;
+}
+body{
+box-shadow: 0 0 0 !important;
+}
+main.inner{
+min-height: calc(100vh - 4rem)
+}
+.hamburger {
+    display: none;
+    width: 1.4rem;
+    padding: 0 !important;
+    float: left;
+    margin-right: 1rem;
+    margin-top: .2rem;
+}
+.hamburger span {
+    padding: 0 !important;
+    display: inline-block;
+    width: 100%;
+    float: left;
+    height: 2px;
+    background-color: #fff;
+    margin-bottom: .3rem;
+    transition: all .3s ease;
+}
+.hamburger.active span:nth-child(3) {
+    width: 60%;
+}
+div.home-cards-sec.farm-boxes{
+padding: 0 !important;
+width: 130%;
+margin-left: -15%;
+}
+div.home-cards-sec.farm-boxes .card{
+margin: 0 .75rem;
+}
+div.home-cards-sec.farm-boxes .card .yield-badge{
+color: #FBD637;
+background-color: transparent;
+font-size: 1.8rem;
+font-style: italic;
+top: .1rem;
+right: -0.3rem;
+letter-spacing: 1px;
+font-family: 'Adumu' !important;
+}
+div.home-cards-sec.farm-boxes .card h6{
+margin-bottom: .5rem !important;
+}
+div.home-cards-sec.farm-boxes .card a.card-link {
+    font-size: .9rem;
+    height: 2rem;
+    line-height: 2rem;
+    letter-spacing: 1px;
+    background-color: #37ABD4;
+    border-color: #37ABD4;
+    transition: all .3s ease;
+    margin-top: 0rem;
+    text-transform: uppercase;
+    font-family: 'Adumu' !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+div.home-cards-sec.farm-boxes .card{
+    height: 13rem !important;
+margin-bottom: 1.5rem;
+}
+div.home-cards-sec.farm-boxes .card a.card-link:hover{
+background-color: #35bdec;
+}
+div.about-col{
+margin-top: 1.4rem !important;
+}
+.about-col p.lead{
+letter-spacing: 1px;
+font-size: .9rem;
+margin-bottom: 1rem !important;
+}
+.about-col p{
+font-size: .9rem;
+text-align: left;
+letter-spacing: 1px;
+line-height: 1.2;
+text-transform: uppercase;
+width: 100%;
+}
+.about-p1{
+margin-bottom: .2rem 
+}
+.home-cards-sec .card .card-body {
+    height: 100%;
+    padding-left: 0;
+    padding-right: 0;
+}
+.pool-sec{
+margin: auto;
+width: 100%;
+padding: 0 !important;
+}
+.pool-sec.home-cards-sec .card{
+margin: 0 1rem !important;
+display: inline-block !important;
+height: 15rem !important;
+margin-bottom: 1.5rem !important;
+top:0 !important;
+vertical-align: top;
+}
+.pool-sec.home-cards-sec .card .card-body{
+text-align: center;
+}
+div.home-cards-sec.pool-sec .card a.card-link{
+    font-size: 1rem;
+    min-height: 4rem;
+line-height: 2.5rem;
+    letter-spacing: 1px;
+    background-color: #37ABD4;
+    border-color: #37ABD4;
+    transition: all .3s ease;
+    margin-top: 0rem;
+    text-transform: uppercase;
+font-family: 'Adumu' !important;
+width: 12rem;
+max-width: 100%;
+}
+div.home-cards-sec.pool-sec .card a.card-link:hover{
+    background-color: #35bdec;
+}
+div.home-cards-sec.pool-sec .card:nth-child(4) a.card-link{
+line-height: 1.2rem;
+padding-left: 0;
+padding-right: 0;
+}
+.cover-heading.farmname{
+text-transform: uppercase !important;
+font-size: 2.1rem;
+margin-bottom: 2rem;
+}
+.home-cards-sec.about-card-col .card{
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+.unicorn-img{
+width: 7.5rem;
+max-width: 100%;
+margin-top: -2.7rem;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (min-width: 767px){
+	main.inner .container {
+	    max-width: 520px;
+	}
+}
+@media (min-width: 1024px){
+	main.inner .container {
+	    max-width: 562px;
+	}
+}
+@media(min-width: 1200px){
+main.inner .container{
+max-width: 700px;
+}
+}
+@media (max-width: 1200px){
+	body, html{
+		font-size: 13px;
+	}
+	.home-cards-sec {
+	    text-align: center;
+	    padding: 0 4rem;
+	}
+	div.home-cards-sec.farm-boxes .card {
+    height: 13.8rem !important;
+    margin-bottom: 1.5rem;
+}
+div.home-cards-sec.farm-boxes .card a.card-link {
+    font-size: 0.8rem;
+    }
+}
+@media (max-width: 1024px){
+	body, html{
+		font-size: 11px;
+	}
+	div.home-cards-sec.farm-boxes .card {
+    height: 14.8rem !important;
+    margin-bottom: 1.5rem;
+}
+}
+@media (max-width: 767px){
+	.hamburger {
+    	display: inline-block;
+	    cursor: pointer;
+	}
+	body, html{
+		font-size: 10px;
+	}
+	.masthead{
+left: -14rem;
+transition: all .3s ease;
+}
+.masthead.active{
+	left: 0;
+}
+main.inner{
+padding-left: 1rem;
+padding-right: 1rem;
+}
+.mastfoot{
+padding-left: 1rem;
+}
+.top-header p {
+    margin: 0;
+    letter-spacing: 1px;
+    font-size: 1.2rem;
+    padding-left: 1rem;
+}
+main.inner{
+	padding-top: 8rem;
+}
+div.home-cards-sec.farm-boxes {
+    padding: 0 !important;
+    width: 100%;
+    margin-left: 0%;
+}
+.about-card-col .card{
+	margin-left: 1rem !important;
+	margin-right: 1rem !important
+}
+}
